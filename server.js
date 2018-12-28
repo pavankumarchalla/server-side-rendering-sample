@@ -94,6 +94,10 @@ var _MyComponent = __webpack_require__(5);
 
 var _MyComponent2 = _interopRequireDefault(_MyComponent);
 
+var _serializeJavascript = __webpack_require__(6);
+
+var _serializeJavascript2 = _interopRequireDefault(_serializeJavascript);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -104,9 +108,13 @@ app.use(_express2.default.static('public'));
 var message = 'Hello World..!!!';
 var markup = (0, _server.renderToString)(_react2.default.createElement(_MyComponent2.default, null));
 var defaultMessage = "Default message data from the server";
+var defaultData = {
+    firstName: "Pavan from Server",
+    lastName: "Kumar from Server"
+};
 
 app.get('*', function (req, res, next) {
-    res.send('<!DOCTYPE html>\n        <html>\n            <head>\n                <title>SSR with RR</title>\n                <script>window.__data__= "' + defaultMessage + '"</script>\n                <script src="bundle.js" defer></script>\n            </head>\n            <body>\n                <p>' + message + '</p>\n                <div id="app">' + markup + '</div>\n            </body>\n        </html>\n        ');
+    res.send('<!DOCTYPE html>\n        <html>\n            <head>\n                <title>SSR with RR</title>\n                <script>window.__data__= "' + defaultMessage + '"</script>\n                <script>window.__jsonData__= ' + (0, _serializeJavascript2.default)(defaultData) + '</script>\n                <script src="bundle.js" defer></script>\n            </head>\n            <body>\n                <p>' + message + '</p>\n                <div id="app">' + markup + '</div>\n            </body>\n        </html>\n        ');
 });
 
 app.listen(3000, function () {
@@ -162,39 +170,61 @@ var MyComponent = function (_Component) {
     function MyComponent(props) {
         _classCallCheck(this, MyComponent);
 
+        // let data;
+
+        // if(__isBrowser__) {
+        //     data = window.__data__
+        // } else {
+        //     data = []
+        // }
+
         var _this = _possibleConstructorReturn(this, (MyComponent.__proto__ || Object.getPrototypeOf(MyComponent)).call(this, props));
 
         _this.state = {
-            data: ""
+            data: "",
+            jsonData: { firstName: "Pavan from Client", lastName: "Kumar from Client" }
         };
         return _this;
     }
 
     _createClass(MyComponent, [{
-        key: 'componentDidMount',
+        key: "componentDidMount",
         value: function componentDidMount() {
+            console.log("Window data", window.__data_);
+            console.log("Window JSON Data", window.__jsonData__);
             this.setState({ data: window.__data__ });
+            this.setState({ jsonData: window.__jsonData__ });
         }
     }, {
-        key: 'handleClick',
+        key: "handleClick",
         value: function handleClick() {
             console.log('event works');
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'div',
+                "div",
                 null,
                 _react2.default.createElement(
-                    'p',
+                    "p",
                     null,
                     this.state.data
                 ),
                 _react2.default.createElement(
-                    'button',
+                    "p",
+                    null,
+                    this.state.jsonData.firstName
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    this.state.jsonData.lastName
+                ),
+                _react2.default.createElement(
+                    "button",
                     { onClick: this.handleClick },
-                    'Hello Pavan'
+                    "Hello Pavan"
                 )
             );
         }
@@ -204,6 +234,12 @@ var MyComponent = function (_Component) {
 }(_react.Component);
 
 exports.default = MyComponent;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("serialize-javascript");
 
 /***/ })
 /******/ ]);

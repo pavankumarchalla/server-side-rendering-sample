@@ -9953,39 +9953,61 @@ var MyComponent = function (_Component) {
     function MyComponent(props) {
         _classCallCheck(this, MyComponent);
 
+        // let data;
+
+        // if(__isBrowser__) {
+        //     data = window.__data__
+        // } else {
+        //     data = []
+        // }
+
         var _this = _possibleConstructorReturn(this, (MyComponent.__proto__ || Object.getPrototypeOf(MyComponent)).call(this, props));
 
         _this.state = {
-            data: ""
+            data: "",
+            jsonData: { firstName: "Pavan from Client", lastName: "Kumar from Client" }
         };
         return _this;
     }
 
     _createClass(MyComponent, [{
-        key: 'componentDidMount',
+        key: "componentDidMount",
         value: function componentDidMount() {
+            console.log("Window data", window.__data_);
+            console.log("Window JSON Data", window.__jsonData__);
             this.setState({ data: window.__data__ });
+            this.setState({ jsonData: window.__jsonData__ });
         }
     }, {
-        key: 'handleClick',
+        key: "handleClick",
         value: function handleClick() {
             console.log('event works');
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'div',
+                "div",
                 null,
                 _react2.default.createElement(
-                    'p',
+                    "p",
                     null,
                     this.state.data
                 ),
                 _react2.default.createElement(
-                    'button',
+                    "p",
+                    null,
+                    this.state.jsonData.firstName
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    this.state.jsonData.lastName
+                ),
+                _react2.default.createElement(
+                    "button",
                     { onClick: this.handleClick },
-                    'Hello Pavan'
+                    "Hello Pavan"
                 )
             );
         }

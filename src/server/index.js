@@ -3,6 +3,7 @@ import cors from 'cors'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import MyComponent from '../browser/MyComponent'
+import serialise from 'serialize-javascript'
 
 const app = express();
 
@@ -12,6 +13,10 @@ app.use(express.static('public'));
 const message = 'Hello World..!!!'
 const markup = renderToString(<MyComponent />)
 const defaultMessage = "Default message data from the server"
+const defaultData = {
+    firstName: "Pavan from Server",
+    lastName: "Kumar from Server"
+}
 
 app.get('*', (req, res, next) => {
     res.send(
@@ -20,6 +25,7 @@ app.get('*', (req, res, next) => {
             <head>
                 <title>SSR with RR</title>
                 <script>window.__data__= "${defaultMessage}"</script>
+                <script>window.__jsonData__= ${serialise(defaultData)}</script>
                 <script src="bundle.js" defer></script>
             </head>
             <body>
