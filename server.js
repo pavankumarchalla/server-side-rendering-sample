@@ -60,25 +60,31 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = require("react");
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _express = __webpack_require__(1);
+var _express = __webpack_require__(2);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _cors = __webpack_require__(2);
+var _cors = __webpack_require__(3);
 
 var _cors2 = _interopRequireDefault(_cors);
 
-var _react = __webpack_require__(3);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -93,13 +99,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 app.use((0, _cors2.default)());
-app.unsubscribe(_express2.default.static('public'));
+app.use(_express2.default.static('public'));
 
 var message = 'Hello World..!!!';
 var markup = (0, _server.renderToString)(_react2.default.createElement(_MyComponent2.default, null));
+var defaultMessage = "Default message data from the server";
 
 app.get('*', function (req, res, next) {
-    res.send('<!DOCTYPE html>\n        <html>\n            <head>\n                <title>SSR with RR</title>\n                <script src="bundle.js" defer></script>\n            </head>\n            <body>\n                <p>' + message + '</p>\n                <div id="app">' + markup + '</div>\n            </body>\n        </html>\n        ');
+    res.send('<!DOCTYPE html>\n        <html>\n            <head>\n                <title>SSR with RR</title>\n                <script>window.__data__= "' + defaultMessage + '"</script>\n                <script src="bundle.js" defer></script>\n            </head>\n            <body>\n                <p>' + message + '</p>\n                <div id="app">' + markup + '</div>\n            </body>\n        </html>\n        ');
 });
 
 app.listen(3000, function () {
@@ -107,22 +114,16 @@ app.listen(3000, function () {
 });
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = require("express");
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("cors");
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("react");
+module.exports = require("cors");
 
 /***/ }),
 /* 4 */
@@ -143,7 +144,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(3);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -158,19 +159,43 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MyComponent = function (_Component) {
     _inherits(MyComponent, _Component);
 
-    function MyComponent() {
+    function MyComponent(props) {
         _classCallCheck(this, MyComponent);
 
-        return _possibleConstructorReturn(this, (MyComponent.__proto__ || Object.getPrototypeOf(MyComponent)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (MyComponent.__proto__ || Object.getPrototypeOf(MyComponent)).call(this, props));
+
+        _this.state = {
+            data: ""
+        };
+        return _this;
     }
 
     _createClass(MyComponent, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.setState({ data: window.__data__ });
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick() {
+            console.log('event works');
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 null,
-                'Hello Pavan'
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    this.state.data
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.handleClick },
+                    'Hello Pavan'
+                )
             );
         }
     }]);

@@ -7,10 +7,11 @@ import MyComponent from '../browser/MyComponent'
 const app = express();
 
 app.use(cors());
-app.unsubscribe(express.static('public'));
+app.use(express.static('public'));
 
 const message = 'Hello World..!!!'
 const markup = renderToString(<MyComponent />)
+const defaultMessage = "Default message data from the server"
 
 app.get('*', (req, res, next) => {
     res.send(
@@ -18,6 +19,7 @@ app.get('*', (req, res, next) => {
         <html>
             <head>
                 <title>SSR with RR</title>
+                <script>window.__data__= "${defaultMessage}"</script>
                 <script src="bundle.js" defer></script>
             </head>
             <body>
