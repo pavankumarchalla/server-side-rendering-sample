@@ -510,15 +510,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(10);
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 var _MyComponent = __webpack_require__(18);
 
 var _MyComponent2 = _interopRequireDefault(_MyComponent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-ReactDOM.render(_react2.default.createElement(_MyComponent2.default, null), document.getElementById("root"));
+(0, _reactDom.hydrate)(_react2.default.createElement(_MyComponent2.default, null), document.getElementById("root"));
 
 /***/ }),
 /* 7 */

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import {hydrate} from 'react-dom';
 import MyComponent from './MyComponent';
 
-ReactDOM.render(<MyComponent />, document.getElementById("root"));
+hydrate(<MyComponent />, document.getElementById("root"));
