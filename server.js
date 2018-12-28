@@ -78,6 +78,16 @@ var _cors = __webpack_require__(2);
 
 var _cors2 = _interopRequireDefault(_cors);
 
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _server = __webpack_require__(4);
+
+var _MyComponent = __webpack_require__(5);
+
+var _MyComponent2 = _interopRequireDefault(_MyComponent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -86,8 +96,10 @@ app.use((0, _cors2.default)());
 app.unsubscribe(_express2.default.static('public'));
 
 var message = 'Hello World..!!!';
+var markup = (0, _server.renderToString)(_react2.default.createElement(_MyComponent2.default, null));
+
 app.get('*', function (req, res, next) {
-    res.send('<!DOCTYPE html>\n        <html>\n            <head>\n                <title>SSR with RR</title>\n            </head>\n            <body>\n                <p>' + message + '</p>\n            </body>\n        </html>\n        ');
+    res.send('<!DOCTYPE html>\n        <html>\n            <head>\n                <title>SSR with RR</title>\n                <script src="bundle.js" defer></script>\n            </head>\n            <body>\n                <p>' + message + '</p>\n                <div id="app">' + markup + '</div>\n            </body>\n        </html>\n        ');
 });
 
 app.listen(3000, function () {
@@ -105,6 +117,68 @@ module.exports = require("express");
 /***/ (function(module, exports) {
 
 module.exports = require("cors");
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("react");
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-dom/server");
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MyComponent = function (_Component) {
+    _inherits(MyComponent, _Component);
+
+    function MyComponent() {
+        _classCallCheck(this, MyComponent);
+
+        return _possibleConstructorReturn(this, (MyComponent.__proto__ || Object.getPrototypeOf(MyComponent)).apply(this, arguments));
+    }
+
+    _createClass(MyComponent, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                'Hello Pavan'
+            );
+        }
+    }]);
+
+    return MyComponent;
+}(_react.Component);
+
+exports.default = MyComponent;
 
 /***/ })
 /******/ ]);
